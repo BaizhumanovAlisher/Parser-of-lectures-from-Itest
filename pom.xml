@@ -18,5 +18,11 @@
             <artifactId>jsoup</artifactId>
             <version>1.15.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.chaosfirebolt.converter</groupId>
+            <artifactId>roman-numeral-converter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>
