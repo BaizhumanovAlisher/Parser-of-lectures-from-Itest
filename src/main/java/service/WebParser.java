@@ -1,25 +1,26 @@
 package service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
 import model.Chapter;
 import model.Lecture;
 import model.View;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WebParser {
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
+    private final FlexmarkHtmlConverter converter;
 
-    public WebParser(ObjectMapper mapper) {
+    public WebParser(ObjectMapper mapper, FlexmarkHtmlConverter converter) {
         this.mapper = mapper;
+        this.converter = converter;
     }
 
     public List<Chapter> getChapters(String domainName, String path) {
@@ -67,6 +68,15 @@ public class WebParser {
     }
 
     private Lecture getLecture(String domainName, String url) {
-        return null;
+        try {
+            Document document = Jsoup.connect(domainName + url).get();
+
+            String title = document.getElementsByClass("header-title-inner").first().text();
+            String lecture = converter.convert(document.getElementsByClass("content-text").toString());
+
+            return new Lecture(title, lecture);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
