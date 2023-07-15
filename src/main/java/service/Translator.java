@@ -11,29 +11,13 @@ import java.net.URL;
 
 public class Translator {
     private final ObjectMapper mapper;
-    private final String[] addresses;
-    private int currentIndex;
 
     public Translator(ObjectMapper mapper) {
         this.mapper = mapper;
-
-        addresses = new String[] {
-                "http://localhost:5000/translate",
-                "https://libretranslate.com/translate"
-        };
-        currentIndex = 0;
-    }
-
-    private HttpURLConnection createNewConnection() {
-        try {
-            return initializeConnection();
-        } catch (Exception e) {
-            return switchAddressAndInitializeConnection();
-        }
     }
 
     private HttpURLConnection initializeConnection() throws Exception {
-        URL url = new URL(addresses[currentIndex]);
+        URL url = new URL("https://libretranslate.com/translate");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
@@ -41,19 +25,10 @@ public class Translator {
         return connection;
     }
 
-    private HttpURLConnection switchAddressAndInitializeConnection() {
-        currentIndex = (currentIndex + 1) % addresses.length;
-        try {
-            return initializeConnection();
-        } catch (Exception e) {
-            throw new RuntimeException("Can not connect to LibreTranslate", e);
-        }
-    }
-
     public String translate(String text) {
         HttpURLConnection connection = null;
         try {
-            connection = createNewConnection();
+            connection = initializeConnection();
 
             String body = mapper.writeValueAsString(new TranslatedText(text));
 
