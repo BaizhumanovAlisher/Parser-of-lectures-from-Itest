@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.homyakin.iuliia.Translator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,10 +18,12 @@ import java.util.List;
 public class WebParser {
     private final ObjectMapper mapper;
     private final FlexmarkHtmlConverter converter;
+    private final Translator translator;
 
-    public WebParser(ObjectMapper mapper, FlexmarkHtmlConverter converter) {
+    public WebParser(ObjectMapper mapper, FlexmarkHtmlConverter converter, Translator translator) {
         this.mapper = mapper;
         this.converter = converter;
+        this.translator = translator;
     }
 
     public List<Chapter> getChapters(String domainName, String path) {
@@ -74,7 +77,7 @@ public class WebParser {
             String title = document.getElementsByClass("header-title-inner").first().text();
             String lecture = converter.convert(document.getElementsByClass("content-text").toString());
 
-            return new Lecture(title, lecture);
+            return new Lecture(title, translator.translate(title), lecture);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

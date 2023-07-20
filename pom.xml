@@ -30,5 +30,11 @@
             <artifactId>flexmark-all</artifactId>
             <version>0.64.8</version>
         </dependency>
+
+        <dependency>
+            <groupId>ru.homyakin</groupId>
+            <artifactId>iuliia-java</artifactId>
+            <version>1.8</version>
+        </dependency>
     </dependencies>
 </project>
