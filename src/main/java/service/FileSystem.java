@@ -1,35 +1,39 @@
 package service;
 
+import model.Lecture;
+
 import java.io.File;
 
 public class FileSystem {
-    private final String path;
-    private File parentFolder;
+    private final File folderLecture;
+    private final File folderAudio;
+    private final File outline;
 
-    public FileSystem(String path) {
-        this.path = path;
+    public FileSystem(String path, String nameFolderLecture, String nameFolderAudio) {
+        this.folderLecture = makeFile(path, nameFolderLecture);
+        this.folderAudio = makeFile(path, nameFolderAudio);
+        outline = new File("%s%s%s".formatted(folderLecture.getAbsolutePath(), File.separator, "OUTLINE.md"));
     }
-    public void makeParentFolder(String name) {
-        parentFolder = new File("%s%s%s".formatted(path, File.separator, name));
-        if (parentFolder.exists()) {
-            return;
-        }
-
-        if (!parentFolder.mkdir()) {
-            throw new RuntimeException("Folder can not be made.");
-        }
+    private File makeFile(String path, String name) {
+        return new File("%s%s%s".formatted(path, File.separator, name));
     }
 
-    public void makeChildFolder(String name) {
-        String fileName = "%s%s%s".formatted(parentFolder.getPath(), File.separator, name);
+    public void saveLecture(Lecture lecture){
 
-        File childFolder = new File(fileName);
-        if (childFolder.exists()) {
-            return;
-        }
+        writeLectureNameInOutline();
+    }
 
-        if (!childFolder.mkdir()) {
-            throw new RuntimeException("Folder can not be made. Name:" + name);
-        }
+    private void writeLectureNameInOutline() {
+    }
+
+    public void startWriteOutline() {
+
+    }
+
+    public void writeChapterNameInOutline() {
+
+    }
+
+    public void endWriteOutline() {
     }
 }
