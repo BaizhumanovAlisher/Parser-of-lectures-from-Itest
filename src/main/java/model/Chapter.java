@@ -1,11 +1,13 @@
 package model;
 
-public record Chapter(String title, String address) {
+import java.util.List;
+
+public record Chapter(String title, List<LectureLink> lectureLinks) {
     @Override
     public String toString() {
         return "Chapter{" +
-                ", title='" + title + '\'' +
-                ", address='" + address + '\'' +
+                "title='" + title + '\'' +
+                ", lectureLinks=" + lectureLinks +
                 '}';
     }
 }
