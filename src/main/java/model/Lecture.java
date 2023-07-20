@@ -1,6 +1,6 @@
 package model;
 
-public record Lecture(String title, String transliteratedText, String lecture) {
+public record Lecture(String title, String transliteratedText, String lecture, byte[] audio) {
     @Override
     public String toString() {
         return "Lecture{" +
