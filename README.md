@@ -7,3 +7,5 @@ resource: [itest.kz](https://itest.kz/ru)
 [result of work program](result/History%20of%20Kazakhstan)
 
 audios and lectures in markdown format
+
+[Link to result](https://drive.google.com/drive/folders/1zyyTMGpAwh7hY7rWlGYPDOwd4tGhcLuG?usp=sharing)
