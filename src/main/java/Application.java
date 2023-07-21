@@ -25,9 +25,9 @@ public class Application {
             for (LectureLink lectureLink : chapter.lectureLinks()) {
                 Lecture lecture = webParser.getLecture(lectureLink.id(), domainName, lectureLink.url());
 
-                fileSystem.saveAudio(lecture.transliteratedText() + ".mp3", lecture.audio());
-                fileSystem.saveLecture(lecture.title(), lecture.transliteratedText() + ".md", lecture.lecture());
-                fileSystem.writeText(String.format("[%s](%s.md)\n\n", lecture.title(), lecture.transliteratedText()));
+                //fileSystem.saveAudio(lecture.transliteratedText() + ".mp3", lecture.audio());
+                //fileSystem.saveLecture(lecture.title(), lecture.transliteratedText() + ".md", lecture.lecture());
+                fileSystem.writeText(String.format("[%s](%s.md)\n\n", lecture.title(), lecture.transliteratedText().replace(" ", "%20")));
             }
 
             fileSystem.writeText("\n\n");
