@@ -1,6 +1,5 @@
 package json;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,7 +14,7 @@ public class ViewDeserializer extends StdDeserializer<View> {
     }
 
     @Override
-    public View deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException, JacksonException {
+    public View deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException {
         JsonNode root = jsonParser.getCodec().readTree(jsonParser);
 
         String view = root.get("view").asText();
