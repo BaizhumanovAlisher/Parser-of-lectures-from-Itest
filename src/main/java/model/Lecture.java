@@ -8,8 +8,4 @@ public record Lecture(String title, String transliteratedText, String lecture, b
                 ", lecture='" + lecture + '\'' +
                 '}';
     }
-
-    public String getTransliteratedText() {
-        return transliteratedText;
-    }
 }
