@@ -80,12 +80,12 @@ public class WebParser {
         try {
             Document document = Jsoup.connect(domainName + url).get();
 
-            String title = "%d) %s".formatted(id, document.getElementsByClass("header-title-inner").first().text());
+            String title = "%d} %s".formatted(id, document.getElementsByClass("header-title-inner").first().text()
+                    .replace('(', '{').replace(')', '}'));
             String lecture = converter.convert(document.getElementsByClass("content-text").toString());
 
-            String pathToAudio = document.getElementsByClass("content-audio").first().attr("src");
-
-            byte[] audio = getUrlAudio(domainName, pathToAudio);
+            String pathToAudio = document.select("audio").first().attr("src");
+            byte[] audio = getAudioBytes(domainName, pathToAudio);
 
             return new Lecture(title, translator.translate(title), lecture, audio);
         } catch (IOException e) {
@@ -93,7 +93,7 @@ public class WebParser {
         }
     }
 
-    private byte[] getUrlAudio(String domainName, String pathToAudio) {
+    private byte[] getAudioBytes(String domainName, String pathToAudio) {
         String audioUrl = domainName + pathToAudio;
 
         try {
