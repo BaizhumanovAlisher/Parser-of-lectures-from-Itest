@@ -1,39 +1,75 @@
 package service;
 
-import model.Lecture;
-
-import java.io.File;
+import java.io.*;
 
 public class FileSystem {
     private final File folderLecture;
     private final File folderAudio;
     private final File outline;
+    private FileWriter fileWriter;
 
     public FileSystem(String path, String nameFolderLecture, String nameFolderAudio) {
         this.folderLecture = makeFile(path, nameFolderLecture);
         this.folderAudio = makeFile(path, nameFolderAudio);
-        outline = new File("%s%s%s".formatted(folderLecture.getAbsolutePath(), File.separator, "OUTLINE.md"));
+        outline = new File(folderLecture.getPath(),"0} OUTLINE.md");
     }
     private File makeFile(String path, String name) {
-        return new File("%s%s%s".formatted(path, File.separator, name));
+        File folder = new File("%s%s%s".formatted(path, File.separator, name));
+        folder.mkdirs();
+        return folder;
     }
 
-    public void saveLecture(Lecture lecture){
+    public void saveAudio(String fileName, byte[] audio) {
+        File file = new File(folderAudio, fileName);
 
-        writeLectureNameInOutline();
-    }
-
-    private void writeLectureNameInOutline() {
-    }
-
-    public void startWriteOutline() {
-
-    }
-
-    public void writeChapterNameInOutline() {
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(audio);
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public void endWriteOutline() {
+    public void saveLecture(String title, String fileName, String lecture) {
+        try {
+            File file = new File(folderLecture, fileName);
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+            writer.write("# %s\n\n%s".formatted(title, lecture));
+
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void startWriting()  {
+        try {
+            fileWriter = new FileWriter(outline);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeText(String text) {
+        try {
+            fileWriter.write(text);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void endWriting() {
+        try {
+            if (fileWriter != null) {
+                fileWriter.close();
+                fileWriter = null;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
